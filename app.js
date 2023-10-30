@@ -1,20 +1,23 @@
-// npm - Global command comes with node
-// npm --v - to check the node version
+const express = require('express')
+const app = express()
+const auth = require('./express tutorial/9-auth')
+const people = require('./express tutorial/8-people')
 
-// local dependency - use it only in this particular project
-// npm i <packagename>
+// static data
+app.use(express.static('./methods-public'))
 
-// Global dependency - use it in any project
-// npm install -g <packagename>
+// parse form data
+app.use(express.urlencoded({ extended: false }))
 
-// package.json  -  manifest file ( stores important info about project/package )
-// manual approach ( create pakacge.json in the root, create properties etc. )
-// npm init (step by step, press enter to skip)
-// npm init -y (everything default)
+// parse json
+app.use(express.json())
 
-const lodash = require('lodash')
+app.use('/api/people',people)
+app.use('/login',auth)
 
-const cmplxArray = [1,[2,[3,[4]]]];
-const flatArray = lodash.flattenDeep(cmplxArray);
 
-console.log(flatArray);
+
+
+app.listen(5000, (req, res) => {
+    console.log('Server is listening to the port 5000....');
+})
